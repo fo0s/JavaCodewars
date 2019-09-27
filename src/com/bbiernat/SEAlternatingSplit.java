@@ -11,24 +11,18 @@ public class SEAlternatingSplit {
         if(text == null || text.isEmpty() || n<1 ) return text;
 
         String output = text;
-        String[] tempArray;
-        String copyOfText = text;
+        String copyOfText;
         int roundCount = 0;
 
         do {
             copyOfText = output;
             output = "";
-            tempArray = copyOfText.split("");
 
             // Odd number split
-            for(int j=0; j<tempArray.length; j++) {
-                if((j%2) != 0) output += tempArray[j];
-            }
+            for(int j=0; j<copyOfText.length(); j++) if((j%2) != 0) output += copyOfText.charAt(j);
 
             // Even number split
-            for(int i=0; i<tempArray.length; i++) {
-                if((i%2) == 0) output += tempArray[i];
-            }
+            for(int i=0; i<copyOfText.length(); i++) if((i%2) == 0) output += copyOfText.charAt(i);
 
             roundCount++;
         } while(roundCount < n);
@@ -40,9 +34,37 @@ public class SEAlternatingSplit {
         // Sanity checks
         if(encryptedText == null || encryptedText.isEmpty() || n<1 ) return encryptedText;
 
+        // Initiate viariables
+        String tempText; String output = encryptedText; String evenText; String oddText;
+        int roundCount = 0; int index;
 
 
-        return null;
+        do {
+            evenText = "";
+            oddText = "";
+            index = 0;
+
+            tempText = output;
+            output = "";
+
+            // Get even split
+            for (int i = 0; i < tempText.length() / 2; i++) oddText += tempText.charAt(i);
+
+            // Get odd split
+            for (int j = tempText.length() / 2; j < tempText.length(); j++)
+                evenText += tempText.charAt(j);
+
+            // Put them together
+            do {
+                if (index < evenText.length()) output += evenText.charAt(index);
+                if (index < oddText.length()) output += oddText.charAt(index);
+                index++;
+            } while (output.length() < tempText.length());
+
+            roundCount++;
+        } while(roundCount < n);
+
+        return output;
     }
 
 
@@ -63,20 +85,20 @@ public class SEAlternatingSplit {
         // assertEquals("expected", "actual");
         assertEquals("This is a test!", SEAlternatingSplit.decrypt("This is a test!", 0));
         assertEquals("This is a test!", SEAlternatingSplit.decrypt("hsi  etTi sats!", 1));
-//        assertEquals("This is a test!", SEAlternatingSplit.decrypt("s eT ashi tist!", 2));
-//        assertEquals("This is a test!", SEAlternatingSplit.decrypt(" Tah itse sits!", 3));
-//        assertEquals("This is a test!", SEAlternatingSplit.decrypt("This is a test!", 4));
-//        assertEquals("This is a test!", SEAlternatingSplit.decrypt("This is a test!", -1));
-//        assertEquals("This kata is very interesting!", SEAlternatingSplit.decrypt("hskt svr neetn!Ti aai eyitrsig", 1));
+        assertEquals("This is a test!", SEAlternatingSplit.decrypt("s eT ashi tist!", 2));
+        assertEquals("This is a test!", SEAlternatingSplit.decrypt(" Tah itse sits!", 3));
+        assertEquals("This is a test!", SEAlternatingSplit.decrypt("This is a test!", 4));
+        assertEquals("This is a test!", SEAlternatingSplit.decrypt("This is a test!", -1));
+        assertEquals("This kata is very interesting!", SEAlternatingSplit.decrypt("hskt svr neetn!Ti aai eyitrsig", 1));
     }
 
     @Test
     public void testNullOrEmpty() {
-//        // assertEquals("expected", "actual");
-//        assertEquals("", SEAlternatingSplit.encrypt("", 0));
-//        assertEquals("", SEAlternatingSplit.decrypt("", 0));
+        // assertEquals("expected", "actual");
+        assertEquals("", SEAlternatingSplit.encrypt("", 0));
+        assertEquals("", SEAlternatingSplit.decrypt("", 0));
         assertEquals(null, SEAlternatingSplit.encrypt(null, 0));
-//        assertEquals(null, SEAlternatingSplit.decrypt(null, 0));
+        assertEquals(null, SEAlternatingSplit.decrypt(null, 0));
     }
 }
 
