@@ -1,7 +1,7 @@
 package com.bbiernat;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class TriangleTester {
     public static boolean isTriangle(int a, int b, int c){
