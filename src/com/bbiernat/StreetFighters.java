@@ -6,31 +6,27 @@ import static org.junit.Assert.assertEquals;
 public class StreetFighters {
 
     public static String[] fighterSelection(String[][] fighters, int[] position, String[] moves) {
-        String[] output = new String[moves.length];
-
         for(int currentMove = 0; currentMove<moves.length; currentMove++) {
             switch (moves[currentMove]) {
                 case "right":
                     position[1]++;
 
-                    if(position[1] == fighters[position[0]].length) {
-                        position[1] = 0;
-                    }
+                    if(position[1] == fighters[position[0]].length) position[1] = 0;
                     break;
 
                 case "left":
                     position[1]--;
 
-                    if(position[1] < 0) {
-                        position[1] = fighters[position[0]].length -1;
-                    }
+                    if(position[1] < 0) position[1] = fighters[position[0]].length -1;
                     break;
 
+                case "down": position[0] = 1; break;
+                case "up": position[0] = 0;
             }
-            output[currentMove] = fighters[position[0]][position[1]];
+            moves[currentMove] = fighters[position[0]][position[1]];
         }
 
-        return output;
+        return moves;
     }
 
 
@@ -38,8 +34,8 @@ public class StreetFighters {
                 new String[] { "Ryu", "E.Honda", "Blanka", "Guile", "Balrog", "Vega" },
                 new String[] { "Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat", "M.Bison" },
         };
-        
-        
+
+
 
         @Test
         public void shouldWorkWithNoMoves() {
@@ -74,48 +70,48 @@ public class StreetFighters {
             String[] solution = new String[] { "Vega", "Balrog" };
             assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
         }
-//
-//        @Test
-//        public void shouldWorkWithFewMoves(){
-//            String[] moves = new String[] { "up", "left", "right", "left", "left" };
-//            String[] solution = new String[] { "Ryu", "Vega", "Ryu", "Vega", "Balrog" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
-//
-//        @Test
-//        public void shouldWorkWhenAlwaysMovingLeft(){
-//            String[] moves = new String[] { "left", "left", "left", "left", "left", "left", "left", "left" };
-//            String[] solution = new String[] { "Vega", "Balrog", "Guile", "Blanka", "E.Honda", "Ryu", "Vega", "Balrog" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
-//
-//        @Test
-//        public void shouldWorkWhenAlwaysMovingRight(){
-//            String[] moves = new String[] { "right", "right", "right", "right", "right", "right", "right", "right" };
-//            String[] solution = new String[] { "E.Honda", "Blanka", "Guile", "Balrog", "Vega", "Ryu", "E.Honda", "Blanka" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
-//
-//        @Test
-//        public void shouldUseAll4DirectionsClockwiseTwice(){
-//            String[] moves = new String[] { "up", "left", "down", "right", "up", "left", "down", "right" };
-//            String[] solution = new String[] { "Ryu", "Vega", "M.Bison", "Ken", "Ryu", "Vega", "M.Bison", "Ken" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
-//
-//        @Test
-//        public void shouldWorkWhenAlwaysMovingDown(){
-//            String[] moves = new String[] { "down", "down", "down", "down" };
-//            String[] solution = new String[] { "Ken", "Ken", "Ken", "Ken" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
-//
-//        @Test
-//        public void shouldWorkWhenAlwaysMovingUp(){
-//            String[] moves = new String[] { "up", "up", "up", "up" };
-//            String[] solution = new String[] { "Ryu", "Ryu", "Ryu", "Ryu" };
-//            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
-//        }
+
+        @Test
+        public void shouldWorkWithFewMoves(){
+            String[] moves = new String[] { "up", "left", "right", "left", "left" };
+            String[] solution = new String[] { "Ryu", "Vega", "Ryu", "Vega", "Balrog" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
+
+        @Test
+        public void shouldWorkWhenAlwaysMovingLeft(){
+            String[] moves = new String[] { "left", "left", "left", "left", "left", "left", "left", "left" };
+            String[] solution = new String[] { "Vega", "Balrog", "Guile", "Blanka", "E.Honda", "Ryu", "Vega", "Balrog" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
+
+        @Test
+        public void shouldWorkWhenAlwaysMovingRight(){
+            String[] moves = new String[] { "right", "right", "right", "right", "right", "right", "right", "right" };
+            String[] solution = new String[] { "E.Honda", "Blanka", "Guile", "Balrog", "Vega", "Ryu", "E.Honda", "Blanka" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
+
+        @Test
+        public void shouldUseAll4DirectionsClockwiseTwice(){
+            String[] moves = new String[] { "up", "left", "down", "right", "up", "left", "down", "right" };
+            String[] solution = new String[] { "Ryu", "Vega", "M.Bison", "Ken", "Ryu", "Vega", "M.Bison", "Ken" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
+
+        @Test
+        public void shouldWorkWhenAlwaysMovingDown(){
+            String[] moves = new String[] { "down", "down", "down", "down" };
+            String[] solution = new String[] { "Ken", "Ken", "Ken", "Ken" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
+
+        @Test
+        public void shouldWorkWhenAlwaysMovingUp(){
+            String[] moves = new String[] { "up", "up", "up", "up" };
+            String[] solution = new String[] { "Ryu", "Ryu", "Ryu", "Ryu" };
+            assertEquals(solution, StreetFighters.fighterSelection(fighters, new int[] {0,0}, moves));
+        }
 }
 
 
