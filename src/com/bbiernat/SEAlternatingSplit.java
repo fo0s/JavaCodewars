@@ -40,12 +40,12 @@ public class SEAlternatingSplit {
 
 
         do {
-            evenText = "";
-            oddText = "";
-            index = 0;
+            evenText    = "";
+            oddText     = "";
+            index       = 0;
 
-            tempText = output;
-            output = "";
+            tempText    = output;
+            output      = "";
 
             // Get even split
             for (int i = 0; i < tempText.length() / 2; i++) oddText += tempText.charAt(i);
