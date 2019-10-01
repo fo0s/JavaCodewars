@@ -12,15 +12,17 @@ public class CaesarCipher {
     public static List<String> movingShift(String s, int shift) {
         StringBuilder newString = new StringBuilder(s);
         List<String> encodedOutput = new ArrayList<>();
+        char letter;
+        int getIndex;
 
         // Encoder
         for (int i = 0; i < newString.length(); i++) {
 
-            char letter = newString.charAt(i);
+            letter = newString.charAt(i);
             String isLowerOrUpper = Character.isUpperCase(letter) ? UPPER : LOWER;
 
             // Check if letter exists, otherwise -1
-            int getIndex = isLowerOrUpper.indexOf(letter);
+            getIndex = isLowerOrUpper.indexOf(letter);
 
             // If -1 add as is, otherwise encode
             if(getIndex != -1) {
@@ -29,19 +31,23 @@ public class CaesarCipher {
             } else {
                 newString.setCharAt(i, newString.charAt(i));
             }
+
             shift++;
         }
 
         // Splitter
-        int stringLength = (newString.length() / 5) + 1;
+        int stringLength = newString.length() / 4;
 
         // -- Check if error in length
-        while (stringLength - 1 >= (newString.length() - 4) * (stringLength - 1)) {
+        while (true) {
+            if(stringLength - 1 < newString.length() - 4 * (stringLength - 1)) {
+                break;
+            }
             stringLength--;
         }
         // -- Build string
-        for (int j = 0; j < 4; j++) {
-            encodedOutput.add(newString.substring(j * stringLength, j * stringLength + stringLength));
+        for (int i = 0; i < 4; i++) {
+            encodedOutput.add(newString.substring(i * stringLength, i * stringLength + stringLength));
         }
         encodedOutput.add(newString.substring(4 * stringLength));
 
@@ -49,8 +55,33 @@ public class CaesarCipher {
     }
 
     public static String demovingShift(List<String> s, int shift) {
+        StringBuilder newString = new StringBuilder();
 
-        return null;
+        for(String section : s) {
+            newString.append(section);
+        }
+
+        // Decoder
+        for (int i = 0; i < newString.length(); i++) {
+
+            char letter = newString.charAt(i);
+            String isLowerOrUpper = Character.isUpperCase(letter) ? UPPER : LOWER;
+
+            // Check if letter exists, otherwise -1
+            int getIndex = isLowerOrUpper.indexOf(letter);
+
+            // If -1 add as is, otherwise decode
+            if (getIndex != -1) {
+
+                getIndex = getIndex - shift >= 0 ? getIndex - shift : getIndex - shift + 26;
+                newString.setCharAt(i, isLowerOrUpper.charAt(getIndex));
+            } else {
+                newString.setCharAt(i, newString.charAt(i));
+            }
+            shift = ++ shift % 26;
+        }
+
+        return newString.toString();
     }
 
     @Test
@@ -58,7 +89,31 @@ public class CaesarCipher {
         String u = "I should have known that you would have a perfect answer for me!!!";
         List<String> v = Arrays.asList("J vltasl rlhr ", "zdfog odxr ypw", " atasl rlhr p ", "gwkzzyq zntyhv", " lvz wp!!!");
         assertEquals(v, CaesarCipher.movingShift(u, 1));
-//        assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 1), 1));
+        assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 1), 1));
+    }
+
+    @Test
+    public void test2() {
+        String u = " uoxIirmoveNreefckgieaoiEcooqo";
+        List<String> v = Arrays.asList(" xscOp, zvygqA", "ftuwud", "adaxmh", "Edqrut");
+        assertEquals(v, CaesarCipher.movingShift(u, 2));
+        assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 2), 2));
+    }
+
+    @Test
+    public void test3() {
+        String u = "uaoQop jx eh osr okaKv vzagzwpxagokBKriipmc U";
+        List<String> v = Arrays.asList("wdsVuw sh", " qu dii h", "evGs uzbi", "caudhoxuM", "Wewxfdu O");
+        assertEquals(v, CaesarCipher.movingShift(u, 2));
+        assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 2), 2));
+    }
+
+    @Test
+    public void test4() {
+        String u = "kgpiqislyhvmffdzlyehjiIteAaaotcoapk bbMgaHlda";
+        List<String> v = Arrays.asList("mjtnwpaui", "shztutqdr", "ycffGseBc", "dsyiviyu ", "noAvqYdwu");
+        assertEquals(v, CaesarCipher.movingShift(u, 2));
+        assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 2), 2));
     }
 }
 
