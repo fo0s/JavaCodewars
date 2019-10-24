@@ -39,10 +39,7 @@ public class CaesarCipher {
         int stringLength = newString.length() / 4;
 
         // -- Check if error in length
-        while (true) {
-            if(stringLength - 1 < newString.length() - 4 * (stringLength - 1)) {
-                break;
-            }
+        while (stringLength - 1 >= newString.length() - 4 * (stringLength - 1)) {
             stringLength--;
         }
         // -- Build string
@@ -95,7 +92,7 @@ public class CaesarCipher {
     @Test
     public void test2() {
         String u = " uoxIirmoveNreefckgieaoiEcooqo";
-        List<String> v = Arrays.asList(" xscOp, zvygqA", "ftuwud", "adaxmh", "Edqrut");
+        List<String> v = Arrays.asList(" xscOp", "zvygqA", "ftuwud", "adaxmh", "Edqrut");
         assertEquals(v, CaesarCipher.movingShift(u, 2));
         assertEquals(u, CaesarCipher.demovingShift(CaesarCipher.movingShift(u, 2), 2));
     }
